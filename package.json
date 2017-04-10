@@ -1,16 +1,20 @@
 {
   "name": "insideout",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
+    "continuation-local-storage": "^3.2.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2"
+    "mysql": "^2.13.0",
+    "sequelize": "^3.30.4",
+    "serve-favicon": "~2.4.2",
+    "uuid": "^3.0.1"
   }
 }
