@@ -1,0 +1,12 @@
+{
+  "name": "insideout-database",
+  "version": "0.1.0",
+  "private": true,
+  "main": "app.js",
+  "dependencies": {
+    "continuation-local-storage": "^3.2.0",
+    "mysql": "^2.13.0",
+    "sequelize": "^3.30.4",
+    "uuid": "^3.0.1"
+  }
+}
