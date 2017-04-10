@@ -3,7 +3,7 @@ let db = require('../database-init.js');
 
 module.exports = () => {
     return db.sequelize.define('logtime', {
-        deviceUid: {
+        username: {
             type: db.Sequelize.STRING,
             allowNull: false
         },
