@@ -11,6 +11,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "insideout-database": "file:modules/database",
     "morgan": "~1.8.1",
     "mysql": "^2.13.0",
     "sequelize": "^3.30.4",
