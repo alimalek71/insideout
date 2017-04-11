@@ -10,7 +10,7 @@ let offsetHeader = 'offset'
 let countHeader = 'count'
 
 router.get('/', (req, res, next) => {
-    let resposne = { logTimes: [], status: statusCodes.OK() }
+    let resposne = { logs: [], status: statusCodes.OK() }
 
     try {
         if (!req.get(usernameHeader)) {
@@ -35,7 +35,7 @@ router.get('/', (req, res, next) => {
         }).then(logTimes => {
             if (logTimes)
                 for (var i = 0; i < logTimes.length; i++)
-                    resposne.logTimes.push(models.getter.getLogTime(logTimes[i]))
+                    resposne.logs.push(models.getter.getLogTime(logTimes[i]))
             else {
                 let err = new Error(errorMessages.databaseError)
                 err.status = statusCodes.BadRequest()
@@ -68,7 +68,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-    let resposne = { status: statusCodes.OK() }
+    let resposne = { log: null, status: statusCodes.OK() }
 
     try {
         if (!req.body.username || !req.body.logTime || isNaN(Number(req.body.logTime))) {
@@ -82,7 +82,7 @@ router.post('/', (req, res, next) => {
             username: req.body.username
         }).then((createdLogTime) => {
             if (createdLogTime) {
-                resposne.logTime = models.getter.getLogTime(createdLogTime)
+                resposne.log = models.getter.getLogTime(createdLogTime)
 
                 res.status(resposne.status.code)
                     .json(resposne)
