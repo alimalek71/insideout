@@ -1,8 +1,14 @@
 let getLogTime = (sequilizeLogTime) => {
-  if (sequilizeLogTime) {
+  if (!sequilizeLogTime) {
     let err = new Error()
     err.name = 'Invalid Model'
-    err.message = 'Call Administrator :)'
+    err.message = 'Database Error'
+    throw err
+  }
+
+  return {
+    logTime: sequilizeLogTime.logTime,
+    username: sequilizeLogTime.username
   }
 }
 
