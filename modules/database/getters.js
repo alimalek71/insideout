@@ -7,7 +7,8 @@ let getLogTime = (sequilizeLogTime) => {
   }
 
   return {
-    logTime: sequilizeLogTime.logTime,
+    id: sequilizeLogTime.id,
+    logTime: new Date(sequilizeLogTime.logTime).getTime(),
     username: sequilizeLogTime.username
   }
 }
