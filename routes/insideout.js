@@ -31,7 +31,8 @@ router.get('/', (req, res, next) => {
                 username: req.get(usernameHeader)
             },
             offset: offset,
-            limit: limit
+            limit: limit,
+            order: [['logTime', 'DESC']]  
         }).then(logTimes => {
             if (logTimes)
                 for (var i = 0; i < logTimes.length; i++)
@@ -115,7 +116,6 @@ router.post('/', (req, res, next) => {
     res.status(resposne.status.code || 500)
         .json(resposne)
 })
-
 
 router.delete('/', (req, res, next) => {
     let resposne = { status: statusCodes.OK() }
