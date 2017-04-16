@@ -84,7 +84,7 @@ router.post('/', (req, res, next) => {
             if (createdLogTime) {
                 resposne.log = models.getter.getLogTime(createdLogTime)
 
-                res.status(resposne.status.code)
+                res.status(resposne.status.code || 500)
                     .json(resposne)
 
                 return
@@ -116,8 +116,54 @@ router.post('/', (req, res, next) => {
         .json(resposne)
 })
 
-router.delete('/', (req, res, next) => {
 
+router.delete('/', (req, res, next) => {
+    let resposne = { status: statusCodes.OK() }
+
+    try {
+        if (!req.body.id && !req.body.username && !Number.isInteger(Number(req.body.id))) {
+            let err = new Error("Invalid or Missing id")
+            err.status = statusCodes.BadRequest()
+            throw err
+        }
+
+        return models.LogTime.destroy({
+            where: {
+                id: req.body.id,
+                username: req.body.username
+            },
+            limit: 1
+        }).then(deleted => {
+            if (deleted)
+                res.status(resposne.status.code)
+                    .json(resposne)
+            else {
+                let err = 
+                new Error(`There is no record with id: ${req.body.id} and username: ${req.body.username}`)
+                err.status = statusCodes.BadRequest()
+                throw err
+            }
+        }).catch(err => {
+            if (error.status)
+                resposne = { status: error.status }
+            else
+                resposne = { status: statusCodes.InternalServerError }
+
+            res.status(resposne.status.code)
+                .json(resposne)
+        })
+
+    } catch (err) {
+        if (error.status)
+            resposne = { status: error.status }
+        else
+            resposne = { status: statusCodes.InternalServerError }
+
+        resposne.status.message = error.message
+    }
+
+    res.status(resposne.status.code || 500)
+        .json(resposne)
 })
 
 module.exports = router
