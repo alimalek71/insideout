@@ -21,18 +21,30 @@ router.get('/', (req, res, next) => {
 
         let offset = 0
         let limit = 10
+        let fromDate = new Date(req.get('fromDate'))
+        let toDate = new Date(req.get('toDate'))
+
         if (req.get(offsetHeader))
             offset = Number(req.get(offsetHeader)) || offset
         if (req.get(countHeader))
             limit = Number(req.get(countHeader)) || limit
 
+        if (isNaN(fromDate))
+            fromDate = undefined
+        if (isNaN(toDate))
+            toDate = undefined
+
         return models.LogTime.findAll({
             where: {
-                username: req.get(usernameHeader)
+                username: req.get(usernameHeader),
+                logTime: {
+                    $lt: toDate,
+                    $gt: fromDate
+                }
             },
             offset: offset,
             limit: limit,
-            order: [['logTime', 'DESC']]  
+            order: [['logTime', 'DESC']]
         }).then(logTimes => {
             if (logTimes)
                 for (var i = 0; i < logTimes.length; i++)
@@ -138,8 +150,8 @@ router.delete('/', (req, res, next) => {
                 res.status(resposne.status.code)
                     .json(resposne)
             else {
-                let err = 
-                new Error(`There is no record with id: ${req.body.id} and username: ${req.body.username}`)
+                let err =
+                    new Error(`There is no record with id: ${req.body.id} and username: ${req.body.username}`)
                 err.status = statusCodes.BadRequest()
                 throw err
             }
