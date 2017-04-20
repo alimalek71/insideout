@@ -24,7 +24,7 @@ app.use('/', insideOut)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  let err = new Error(errorMessages.not_found())
+  let err = new Error(errorMessages.notFound())
   err.status = 404
   next(err)
 })
